@@ -13,11 +13,27 @@ Install dependencies and run the game from the project root or the `chess` direc
 pip install -r requirements.txt
 ```
 
-2. Run the terminal game (wrapper runs the internal entrypoint):
+1. Run the terminal game (wrapper runs the internal entrypoint):
 
 ```powershell
 python main.py
 ```
+
+1. Run the web GUI backend (FastAPI):
+
+```powershell
+uvicorn api_server:app --reload
+```
+
+1. Run the React + Material UI frontend:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Then open `http://localhost:5173`.
 
 Or run the GUI (Pygame) frontend from the `chess` folder:
 
@@ -52,7 +68,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-2. Install dependencies:
+1. Install dependencies:
 
 ```powershell
 pip install -r requirements.txt
@@ -76,6 +92,18 @@ python main.py
 
 ```powershell
 python -m chess_terminal.pygame_gui
+```
+
+- React + MUI web GUI:
+
+```powershell
+# terminal 1 (project root)
+uvicorn api_server:app --reload
+
+# terminal 2
+cd frontend
+npm install
+npm run dev
 ```
 
 Or change directory and run the script directly:
@@ -107,7 +135,17 @@ Commands inside the game:
 - redo -- redo last undone move
 - history -- view move history
 - ai on/off -- toggle AI for Black
-- ai depth <n> -- set minimax depth
+- ai depth [n] -- set minimax depth
+
+Commands inside the web GUI command box:
+
+- e2 e4 -- move
+- undo -- undo last move
+- redo -- redo last undone move
+- history -- show move history
+- ai on/off -- toggle AI for Black
+- ai depth [n] -- set minimax depth
+- reset -- start a new game
 
 ## DSA Concepts and where they are used
 

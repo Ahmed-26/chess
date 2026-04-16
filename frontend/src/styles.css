@@ -1,0 +1,321 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather:wght@400;700&display=swap");
+
+:root {
+  --paper-soft: #f5ede1;
+  --board-border: #6f4a2f;
+  --light-square: #e7d2b4;
+  --dark-square: #9a6d45;
+  --accent-gold: #d6ad67;
+  --accent-navy: #203f5c;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(255, 255, 255, 0.52),
+      transparent 28%
+    ),
+    radial-gradient(circle at 90% 82%, rgba(32, 63, 92, 0.15), transparent 32%),
+    linear-gradient(135deg, #efe2d1 0%, #dcc3a2 45%, #cab198 100%);
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.top-banner {
+  border: 1px solid rgba(91, 58, 36, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 235, 222, 0.95),
+    rgba(239, 225, 208, 0.86)
+  );
+  backdrop-filter: blur(6px);
+  padding: 1rem 1.25rem;
+  animation: rise-in 420ms ease-out;
+}
+
+.top-banner h4 {
+  font-family: "Cinzel", serif;
+}
+
+.board-card {
+  background: linear-gradient(160deg, #f6eee2, #ebdbc8);
+  border: 1px solid rgba(95, 66, 44, 0.24);
+  border-radius: 20px;
+  animation: rise-in 500ms ease-out;
+}
+
+.board-frame {
+  border-radius: 18px;
+  border: 10px solid var(--board-border);
+  box-shadow:
+    0 18px 35px rgba(46, 30, 18, 0.3),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+    inset 0 0 28px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  gap: 0;
+}
+
+.square {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 120ms ease,
+    filter 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.square:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.square.light {
+  background: var(--light-square);
+}
+
+.square.dark {
+  background: var(--dark-square);
+}
+
+.square.selected {
+  box-shadow: inset 0 0 0 4px rgba(32, 63, 92, 0.85);
+}
+
+.square.legal {
+  box-shadow: inset 0 0 0 4px rgba(214, 173, 103, 0.85);
+}
+
+.piece {
+  font-size: clamp(1.65rem, 4.2vw, 2.65rem);
+  line-height: 1;
+  z-index: 2;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 120ms ease;
+}
+
+.square:hover .piece {
+  transform: scale(1.06);
+}
+
+.piece.black {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.28));
+}
+
+.rank-label,
+.file-label {
+  position: absolute;
+  font-family: "Cinzel", serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  opacity: 0.88;
+  color: rgba(34, 22, 14, 0.82);
+}
+
+.rank-label {
+  top: 3px;
+  left: 5px;
+}
+
+.file-label {
+  right: 5px;
+  bottom: 3px;
+}
+
+.legal-dot {
+  position: absolute;
+  width: 26%;
+  height: 26%;
+  border-radius: 999px;
+  background: rgba(214, 173, 103, 0.72);
+  z-index: 1;
+}
+
+.MuiCard-root {
+  border-radius: 18px;
+  border: 1px solid rgba(93, 63, 42, 0.18);
+  background: linear-gradient(
+    180deg,
+    rgba(250, 244, 236, 0.9),
+    rgba(245, 236, 225, 0.88)
+  );
+}
+
+.history-list {
+  max-height: 240px;
+  overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .top-banner {
+    padding: 0.85rem 1rem;
+  }
+
+  .board-frame {
+    border-width: 7px;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  .app-shell {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .top-banner {
+    padding: 0.75rem 0.8rem;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+  }
+
+  .top-banner h4 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .top-banner .MuiTypography-subtitle1 {
+    font-size: 0.75rem;
+  }
+
+  .board-frame {
+    border-radius: 12px;
+    border-width: 6px;
+  }
+
+  .board-grid {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+  }
+
+  .square {
+    font-size: 1.2rem;
+  }
+
+  .rank-label,
+  .file-label {
+    font-size: 0.6rem;
+  }
+
+  .piece {
+    font-size: 1.5rem;
+  }
+
+  .MuiCard-root {
+    border-radius: 12px;
+  }
+
+  .MuiCardContent-root {
+    padding: 0.75rem;
+  }
+
+  .history-list {
+    max-height: 150px;
+  }
+
+  .MuiButton-root {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .MuiChip-root {
+    height: 28px;
+    font-size: 0.7rem;
+  }
+
+  .MuiTypography-h6 {
+    font-size: 1rem;
+  }
+
+  .MuiAlert-root {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-banner {
+    padding: 0.6rem 0.6rem;
+  }
+
+  .top-banner h4 {
+    font-size: 1rem;
+  }
+
+  .top-banner .MuiTypography-subtitle1 {
+    display: none;
+  }
+
+  .board-frame {
+    border-width: 5px;
+  }
+
+  .square {
+    font-size: 1rem;
+  }
+
+  .piece {
+    font-size: 1.2rem;
+  }
+
+  .history-list {
+    max-height: 120px;
+  }
+
+  .MuiButton-root {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .MuiCardContent-root {
+    padding: 0.5rem;
+  }
+
+  .MuiStack-root {
+    gap: 0.4rem;
+  }
+}
+
+@media (min-width: 901px) {
+  .app-shell {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .square:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
