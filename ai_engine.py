@@ -102,6 +102,7 @@ def minimax(
     """Minimax with alpha-beta pruning and memoization.
 
     Recursively explores the tree of moves to given depth. Uses memo dict keyed by board_key.
+    `maximizing=True` means White is evaluating, `maximizing=False` means Black.
     """
     if memo is None:
         memo = {}
@@ -130,14 +131,14 @@ def minimax(
     if maximizing:
         max_eval = -99999
         for frm, to in moves:
-            # apply move
+            # Apply/undo directly on the same board to avoid allocating copies per node.
             piece_moved = b.get_piece(frm)
             captured = b.get_piece(to)
             b.set_piece(to, piece_moved)
             b.set_piece(frm, None)
             b.to_move = "b"
             val, _ = minimax(b, depth - 1, False, alpha, beta, memo)
-            # undo
+            # Restore board state exactly for sibling branches.
             b.set_piece(frm, piece_moved)
             b.set_piece(to, captured)
             b.to_move = "w"
@@ -152,6 +153,7 @@ def minimax(
     else:
         min_eval = 99999
         for frm, to in moves:
+            # Same in-place simulation for the minimizing side.
             piece_moved = b.get_piece(frm)
             captured = b.get_piece(to)
             b.set_piece(to, piece_moved)

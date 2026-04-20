@@ -2,7 +2,6 @@
 Entry point for the terminal-based chess game demonstrating OOP and DSA.
 
 Features implemented:
-- 2-player local play
 - Optional AI (greedy or minimax)
 - Undo/Redo via Stack
 - Move history via LinkedList

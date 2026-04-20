@@ -1,7 +1,7 @@
 """move_history.py
 Implements LinkedList for move history, Stack for undo/redo, and Queue for turn management.
 
-DSA Concepts demonstrated:
+DSA Concepts :
 - Linked List: doubly-linked list to store moves for easy traversal/backtracking.
   # Linked List used to store move history with easy undo traversal.
 - Stack: LIFO used for undo and redo stacks.

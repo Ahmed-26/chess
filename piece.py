@@ -18,7 +18,7 @@ class Piece:
     """
 
     def __init__(self, color: str):
-        self.color = color  # 'w' or 'b'
+        self.color = color  
 
     def symbol(self) -> str:
         raise NotImplementedError

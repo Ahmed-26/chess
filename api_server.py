@@ -23,10 +23,13 @@ class CommandRequest(BaseModel):
 
 
 class ChessGame:
+    """Owns mutable game state and exposes command-style operations for API routes."""
+
     def __init__(self) -> None:
         self.reset()
 
     def reset(self) -> None:
+        """Reset runtime state for a fresh game session."""
         self.board = Board()
         self.history = MoveLinkedList()
         self.undo_stack = Stack()
@@ -85,6 +88,7 @@ class ChessGame:
         return f"{side} to move"
 
     def _apply_move(self, from_pos: Position, to_pos: Position) -> Tuple[bool, str]:
+        """Validate and apply a player move, then update history/undo and captures."""
         side = self.board.to_move
         moving_piece = self.board.get_piece(from_pos)
         if moving_piece is None:
@@ -104,7 +108,7 @@ class ChessGame:
         self.redo_stack.clear()
         self.played_moves.append(move_obj)
 
-        # Track captured pieces
+        # Keep a lightweight captured-piece list for UI side panels.
         if captured:
             self._piece_payload((to_pos))
             captured_info = {
@@ -120,6 +124,7 @@ class ChessGame:
         return True, f"Moved {self.pos_to_alg(from_pos)} to {self.pos_to_alg(to_pos)}."
 
     def _play_ai_if_needed(self) -> Optional[str]:
+        """Trigger a single AI move when AI is enabled and Black is to move."""
         if not self.ai_enabled or self.board.to_move != "b":
             return None
 
@@ -129,6 +134,7 @@ class ChessGame:
             maximizing=False,
         )
 
+        # Fallback keeps the game moving even when minimax returns no candidate.
         mv = best
         if mv is None:
             mv = ai_engine.greedy_move(self.board, "b")
@@ -146,7 +152,7 @@ class ChessGame:
         self.redo_stack.clear()
         self.played_moves.append(move_obj)
 
-        # Track captured pieces
+        # Keep captured lists in sync for frontend rendering.
         if captured:
             captured_info = {
                 "symbol": captured.symbol(),
@@ -199,7 +205,7 @@ class ChessGame:
         if self.played_moves:
             self.played_moves.pop()
 
-        # Remove captured piece from tracking if it exists
+        # Undo should also roll back captured-piece side panels.
         if last.captured:
             if last.captured.color == "w":
                 if self.captured_white:
@@ -223,6 +229,7 @@ class ChessGame:
         return True, self.last_message
 
     def run_command(self, command: str) -> Tuple[bool, str]:
+        """Parse CLI-like commands shared by terminal and API clients."""
         parts = command.strip().split()
         if not parts:
             return False, "Empty command."
@@ -275,6 +282,7 @@ class ChessGame:
         return False, "Unknown command."
 
     def state_payload(self) -> Dict:
+        """Return a frontend-ready snapshot; avoids forcing client-side derivation."""
         legal_moves = self.board.generate_legal_moves(self.board.to_move)
         return {
             "board": self._board_payload(),

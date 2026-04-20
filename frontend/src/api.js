@@ -1,4 +1,5 @@
 export async function apiGet(path) {
+  // Centralized GET helper keeps fetch/error behavior consistent across components.
   const res = await fetch(path);
   if (!res.ok) {
     throw new Error(`Request failed: ${res.status}`);
@@ -7,6 +8,7 @@ export async function apiGet(path) {
 }
 
 export async function apiPost(path, payload = {}) {
+  // JSON POST helper used by move/command actions.
   const res = await fetch(path, {
     method: "POST",
     headers: {
@@ -16,6 +18,7 @@ export async function apiPost(path, payload = {}) {
   });
 
   if (!res.ok) {
+    // Surface HTTP status so callers can map it to UI alerts.
     throw new Error(`Request failed: ${res.status}`);
   }
 

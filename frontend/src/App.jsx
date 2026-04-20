@@ -26,6 +26,7 @@ const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const RANKS = [8, 7, 6, 5, 4, 3, 2, 1];
 
 function squareName(row, col) {
+  // Backend uses row 0 as rank 8, so convert UI grid indices to algebraic notation.
   return `${FILES[col]}${8 - row}`;
 }
 
@@ -141,6 +142,7 @@ export default function App() {
 
     const clicked = squareName(row, col);
 
+    // Second click on a highlighted target executes the move.
     if (selectedSquare && legalTargets.includes(clicked)) {
       await performMove(selectedSquare, clicked);
       return;
@@ -169,6 +171,7 @@ export default function App() {
     }
 
     setSelectedSquare(clicked);
+    // Fetch legal destinations lazily so we only compute highlights when needed.
     fetchLegal(clicked).catch(() => {
       setLegalTargets([]);
     });
@@ -373,6 +376,7 @@ export default function App() {
               >
                 <Box className="board-frame">
                   <Box className="board-grid">
+                    {/* Rank list is descending so top row renders as rank 8, matching chess notation. */}
                     {RANKS.map((rank, rowIndex) =>
                       FILES.map((file, colIndex) => {
                         const row = rowIndex;
@@ -507,6 +511,7 @@ export default function App() {
                     </ListItem>
                   )}
                   {(state?.history || []).map((mv, idx) => {
+                    // Group history into human-readable full-move numbers (1. white, then black).
                     const moveNumber = Math.floor(idx / 2) + 1;
                     const isWhite = idx % 2 === 0;
                     return (

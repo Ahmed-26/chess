@@ -129,8 +129,8 @@ class Board:
                 p = self.board[r][c]
                 if p is not None and p.color == color:
                     for to in p.get_moves(self, (r, c)):
-                        # Make move on a copy to test legality
-                        # Recursion/backtracking style: simulate, test, undo
+                        # Simulate in-place and roll back immediately.
+                        # This is faster than deep-copying the board for every candidate move.
                         saved_from = self.get_piece((r, c))
                         saved_to = self.get_piece(to)
                         self.set_piece(to, saved_from)

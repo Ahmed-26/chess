@@ -1,151 +1,268 @@
-# Chess Terminal (OOP + DSA Edition)
+# ♟️ Chess Application - Professional Setup Guide
 
-This is a terminal-based chess game written in Python with a strong focus on demonstrating
-Object-Oriented Programming (OOP) and Data Structures & Algorithms (DSA) concepts.
+A full-stack chess application featuring a **ReactJS + Material-UI frontend** with a **FastAPI backend** powered by a sophisticated Python chess engine.
 
-## Quick start
+**Play against AI with undo functionality, move history tracking, and captured pieces visualization.**
 
-Install dependencies and run the game from the project root or the `chess` directory.
+---
 
-1. Install Python dependencies listed in `requirements.txt`:
+## 📋 Table of Contents
 
-```powershell
-pip install -r requirements.txt
+- [System Requirements](#-system-requirements)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation-step-by-step)
+- [Running the Application](#-running-the-application)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Development Notes](#-development-notes)
+
+---
+
+## 💻 System Requirements
+
+- **Python 3.10+**
+- **Node.js 16+** and **npm 8+**
+- **Windows/Mac/Linux** with PowerShell or Bash
+
+---
+
+## 📁 Project Structure
+
 ```
-
-1. Run the terminal game (wrapper runs the internal entrypoint):
-
-```powershell
-python main.py
-```
-
-1. Run the web GUI backend (FastAPI):
-
-```powershell
-uvicorn api_server:app --reload
-```
-
-1. Run the React + Material UI frontend:
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Then open `http://localhost:5173`.
-
-Or run the GUI (Pygame) frontend from the `chess` folder:
-
-```powershell
-cd chess_terminal
-python pygame_gui.py
-```
-
-## Project structure (code structure)
-
 chess/
-
-- main.py # convenience runner (runs chess_terminal/main.py)
-- requirements.txt # third-party dependencies to install with pip
-- README.md # this file
-- chess_terminal/
-  - main.py # terminal game entrypoint (text-based UI)
-  - pygame_gui.py # optional Pygame frontend (click-to-move GUI)
-  - board.py # Board class (8x8 array), move execution and legality
-  - piece.py # Piece base class and subclasses (Pawn,Rook,...) with move generation
-  - move.py # Move dataclass and helpers
-  - move_history.py # LinkedList, Stack, Queue for history/undo/turns
-  - ai_engine.py # AI: greedy + minimax (recursion, memoization)
-  - utils/ helpers.py # sorting/search helpers (quicksort, binary/linear search)
-
-## Installation
-
-1. (Optional) Create and activate a virtual environment:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+├── api_server.py              # FastAPI backend (chess engine REST API)
+├── board.py                   # Board class (8x8 grid, move execution)
+├── piece.py                   # Piece classes (Pawn, Rook, Knight, etc.)
+├── move.py                    # Move representation & helpers
+├── move_history.py            # Move history with undo/redo (LinkedList, Stack)
+├── ai_engine.py               # AI engine (minimax with memoization)
+├── main.py                    # Terminal mode entry point
+├── requirements.txt           # Python dependencies
+├── .gitignore                 # Git ignore rules
+├── README.md                  # This file
+│
+└── frontend/                  # React + Material-UI frontend
+    ├── src/
+    │   ├── App.jsx            # Main React component
+    │   ├── api.js             # API client (fetch helper)
+    │   ├── theme.js           # Material-UI theme
+    │   ├── styles.css         # Custom styling
+    │   └── main.jsx           # React entry point
+    ├── index.html             # HTML template
+    ├── package.json           # Node dependencies
+    ├── vite.config.js         # Vite build config
+    └── .gitignore             # Frontend git rules
 ```
 
-1. Install dependencies:
+---
+
+## 🚀 Installation (Step-by-Step)
+
+### Step 1: Clone/Navigate to Project
 
 ```powershell
+cd e:\University\3rd_Semester\chess
+```
+
+### Step 2: Set Up Python Virtual Environment
+
+```powershell
+# Create virtual environment
+python -m venv .venv
+
+# Activate it (Windows PowerShell)
+.\.venv\Scripts\Activate.ps1
+
+# If you get execution policy error, run:
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### Step 3: Install Python Dependencies
+
+```powershell
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-If you only want the Pygame GUI, installing `pygame` is sufficient:
+**Expected packages:**
+- `fastapi==0.115.12`
+- `uvicorn==0.34.2`
+- `pydantic==2.12.5`
+
+### Step 4: Install Frontend Dependencies
 
 ```powershell
-pip install pygame
+cd frontend
+npm install
+cd ..
 ```
 
-## How to run
+---
 
-- Terminal (text) mode from project root:
+## ▶️ Running the Application
+
+### **Option A: Full Stack (Recommended)**
+
+#### Terminal 1 - Start Backend Server
+
+```powershell
+# Make sure you're in the project root and venv is activated
+uvicorn api_server:app --reload
+```
+
+**Expected output:**
+```
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Application startup complete
+```
+
+#### Terminal 2 - Start Frontend Development Server
+
+```powershell
+cd frontend
+npm run dev
+```
+
+**Expected output:**
+```
+  ➜  Local:   http://localhost:5173/
+  ➜  press h to show help
+```
+
+#### Step 3: Open in Browser
+
+- Open your browser and navigate to: **`http://localhost:5173`**
+- The frontend will automatically connect to the backend at `http://127.0.0.1:8000`
+
+---
+
+### **Option B: Terminal Mode Only**
 
 ```powershell
 python main.py
 ```
 
-- Pygame GUI (from project root):
+Use commands like:
+- `e2 e4` - Move piece
+- `undo` - Undo last move
+- `ai on/off` - Toggle AI opponent
+- `quit` - Exit game
+
+---
+
+## ✨ Features
+
+### Frontend Features
+- ✅ **Interactive Chess Board** - Click to move pieces
+- ✅ **AI Opponent** - Toggle AI on/off, plays as Black
+- ✅ **Move History** - Track all moves with move numbering
+- ✅ **Undo/Redo** - Revert moves at any time
+- ✅ **Captured Pieces Display** - Black captures on left, White on right
+- ✅ **Responsive Design** - Works on desktop and mobile (600px, 480px breakpoints)
+- ✅ **Legal Move Highlighting** - Green highlights for valid moves
+- ✅ **Real-time Status** - Game status, turn indicator, AI toggle buttons
+
+### Backend Features
+- ✅ **FastAPI REST Server** - High-performance async backend
+- ✅ **Chess Engine** - Complete chess rules implementation
+- ✅ **AI with Minimax** - Recursive AI with memoization
+- ✅ **Move Validation** - Legal move checking for all pieces
+- ✅ **Game State Management** - Full undo/redo support
+- ✅ **Move History Tracking** - LinkedList-based move history
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Frontend** | React | 19.1.0 |
+| **UI Library** | Material-UI | 7.1.0 |
+| **Bundler** | Vite | 6.3.5 |
+| **Styling** | Emotion + CSS | Latest |
+| **Backend** | FastAPI | 0.115.12 |
+| **Server** | Uvicorn | 0.34.2 |
+| **Validation** | Pydantic | 2.12.5 |
+| **Language** | Python | 3.10+ |
+| **Package Manager** | npm | 8.0+ |
+
+---
+
+## 💡 Development Notes
+
+### Backend API Endpoints
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `GET` | `/api/state` | Get current board state |
+| `POST` | `/api/move` | Execute a move |
+| `POST` | `/api/undo` | Undo last move |
+| `POST` | `/api/reset` | Reset game |
+| `GET` | `/api/legal/{square}` | Get legal moves for a square |
+| `POST` | `/api/command` | Execute commands (ai on/off) |
+
+### Key Files Explained
+
+- **api_server.py**: FastAPI wrapper around chess engine. Manages game state, API routes, and AI coordination.
+- **board.py**: 8x8 board representation. Handles move execution and legality checking.
+- **piece.py**: Base `Piece` class and subclasses for each piece type. Move generation logic per piece.
+- **move_history.py**: LinkedList-based move history with undo/redo stacks.
+- **ai_engine.py**: Minimax algorithm with depth-based move evaluation and memoization cache.
+
+### Debugging
+
+- **Backend logs**: Check terminal running Uvicorn for request logs and errors
+- **Frontend logs**: Open browser DevTools (F12) → Console tab
+- **API Testing**: Use Postman or visit `http://127.0.0.1:8000/docs` for Swagger UI
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| `Port 5173 already in use` | Change port: `npm run dev -- --port 5174` |
+| `Port 8000 already in use` | Use different port: `uvicorn api_server:app --port 8001 --reload` |
+| `Module not found` | Reinstall: `pip install -r requirements.txt` |
+| `npm ERR` | Clear cache: `npm cache clean --force && npm install` |
+| `CORS errors` | Backend already configured with CORS headers |
+
+---
+
+## 🔧 Build for Production
+
+### Frontend Build
 
 ```powershell
-python -m chess_terminal.pygame_gui
-```
-
-- React + MUI web GUI:
-
-```powershell
-# terminal 1 (project root)
-uvicorn api_server:app --reload
-
-# terminal 2
 cd frontend
-npm install
-npm run dev
+npm run build
+# Output in frontend/dist/
 ```
 
-Or change directory and run the script directly:
+### Backend Deployment
 
 ```powershell
-cd chess_terminal
-python pygame_gui.py
+# Production server (remove --reload)
+uvicorn api_server:app --host 0.0.0.0 --port 8000
 ```
 
-## Short summary (what this project provides)
+---
 
-- A playable terminal-based chess program demonstrating OOP and common DSA concepts.
-- Play modes: Player vs Player (text), optional AI opponent (greedy/minimax).
-- Undo/Redo and move history implemented using Stack and LinkedList.
-- Board represented as a 2D list (array) for O(1) access; move generation uses piece classes.
-- AI demonstrates recursion/backtracking (minimax), move sorting, and memoization (simple transposition cache).
+## 📚 Learning Concepts (OOP & DSA)
 
-## Short notes (Hindi)
+This project demonstrates:
 
-- Install karne ke liye: `pip install -r requirements.txt`.
-- Terminal se chalane ke liye root pe `python main.py` likhen.
-- GUI chahiye to `python -m chess_terminal.pygame_gui` ya `cd chess_terminal` phir `python pygame_gui.py`.
-- Code structure upar di hui hai — har file ka ek-line purpose bhi diya gaya hai.
+- **Object-Oriented Programming**: Piece hierarchy, Board class, Move objects
+- **Data Structures**: LinkedList (move history), Stack (undo), Queue concepts
+- **Algorithms**: Minimax (game theory), Memoization (dynamic programming)
+- **Design Patterns**: API wrapper pattern, Factory pattern for pieces
+- **Full-Stack Development**: REST API, State management, UI components
 
-Commands inside the game:
+---
 
-- e2 e4 -- move
-- undo -- undo last move
-- redo -- redo last undone move
-- history -- view move history
-- ai on/off -- toggle AI for Black
-- ai depth [n] -- set minimax depth
+## 📝 License
 
-Commands inside the web GUI command box:
+Educational project for learning OOP, DSA, and Full-Stack Development.
 
-- e2 e4 -- move
-- undo -- undo last move
-- redo -- redo last undone move
-- history -- show move history
-- ai on/off -- toggle AI for Black
-- ai depth [n] -- set minimax depth
-- reset -- start a new game
+---
 
 ## DSA Concepts and where they are used
 
