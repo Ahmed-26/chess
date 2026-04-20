@@ -11,12 +11,11 @@ DSA Concepts:
 
 from typing import List, Callable, Any
 
-
 def quicksort(arr: List[Any], key: Callable[[Any], int]) -> List[Any]:
     """Simple quicksort that returns a new sorted list by key.
-
-    Note: for small lists Python's Timsort is better; implemented explicitly for education.
     """
+    # for small lists Python's Timsort is better; implemented explicitly for education.
+
     if len(arr) <= 1:
         return arr[:]
     pivot = key(arr[len(arr) // 2])

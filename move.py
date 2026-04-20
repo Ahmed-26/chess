@@ -11,8 +11,8 @@ from typing import Optional, Tuple
 
 @dataclass
 class Move:
-    """Represents a chess move.
-
+  # Represent a chess move.  
+    """
     Attributes:
         from_pos: tuple (row, col)
         to_pos: tuple (row, col)
