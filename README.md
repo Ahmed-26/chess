@@ -10,6 +10,7 @@ A full-stack chess application featuring a **ReactJS + Material-UI frontend** wi
 
 - [System Requirements](#-system-requirements)
 - [Project Structure](#-project-structure)
+- [Run This Project](#run-this-project)
 - [Installation](#-installation-step-by-step)
 - [Running the Application](#-running-the-application)
 - [Features](#-features)
@@ -56,6 +57,65 @@ chess/
 
 ---
 
+## Run This Project
+
+Use one of the two modes below.
+
+### Mode A: Web App (FastAPI backend + React frontend)
+
+1. Open PowerShell in project root:
+
+```powershell
+cd E:\University\4th_Semester\ACP\Project\chess
+```
+
+2. Create/activate venv and install backend dependencies:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+3. Start backend (Terminal 1):
+
+```powershell
+cd E:\University\4th_Semester\ACP\Project\chess
+uvicorn api_server:app --reload
+```
+
+4. Start frontend (Terminal 2):
+
+```powershell
+cd E:\University\4th_Semester\ACP\Project\chess\frontend
+npm install
+npm run dev
+```
+
+5. Open in browser:
+
+- Frontend: http://localhost:5173
+- Backend docs: http://127.0.0.1:8000/docs
+
+### Mode B: Terminal Chess (Python only)
+
+```powershell
+cd E:\University\4th_Semester\ACP\Project\chess
+.\.venv\Scripts\Activate.ps1
+python main.py
+```
+
+### Common Mistake
+
+If you run `python main.py` inside the `frontend` folder, it fails because `main.py` is in the project root. Go back to root first:
+
+```powershell
+cd E:\University\4th_Semester\ACP\Project\chess
+python main.py
+```
+
+---
+
 ## 🚀 Installation (Step-by-Step)
 
 ### Step 1: Clone/Navigate to Project
@@ -85,6 +145,7 @@ pip install -r requirements.txt
 ```
 
 **Expected packages:**
+
 - `fastapi==0.115.12`
 - `uvicorn==0.34.2`
 - `pydantic==2.12.5`
@@ -111,6 +172,7 @@ uvicorn api_server:app --reload
 ```
 
 **Expected output:**
+
 ```
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 INFO:     Application startup complete
@@ -124,6 +186,7 @@ npm run dev
 ```
 
 **Expected output:**
+
 ```
   ➜  Local:   http://localhost:5173/
   ➜  press h to show help
@@ -143,6 +206,7 @@ python main.py
 ```
 
 Use commands like:
+
 - `e2 e4` - Move piece
 - `undo` - Undo last move
 - `ai on/off` - Toggle AI opponent
@@ -153,6 +217,7 @@ Use commands like:
 ## ✨ Features
 
 ### Frontend Features
+
 - ✅ **Interactive Chess Board** - Click to move pieces
 - ✅ **AI Opponent** - Toggle AI on/off, plays as Black
 - ✅ **Move History** - Track all moves with move numbering
@@ -163,6 +228,7 @@ Use commands like:
 - ✅ **Real-time Status** - Game status, turn indicator, AI toggle buttons
 
 ### Backend Features
+
 - ✅ **FastAPI REST Server** - High-performance async backend
 - ✅ **Chess Engine** - Complete chess rules implementation
 - ✅ **AI with Minimax** - Recursive AI with memoization
@@ -174,17 +240,17 @@ Use commands like:
 
 ## 🛠️ Technology Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| **Frontend** | React | 19.1.0 |
-| **UI Library** | Material-UI | 7.1.0 |
-| **Bundler** | Vite | 6.3.5 |
-| **Styling** | Emotion + CSS | Latest |
-| **Backend** | FastAPI | 0.115.12 |
-| **Server** | Uvicorn | 0.34.2 |
-| **Validation** | Pydantic | 2.12.5 |
-| **Language** | Python | 3.10+ |
-| **Package Manager** | npm | 8.0+ |
+| Layer               | Technology    | Version  |
+| ------------------- | ------------- | -------- |
+| **Frontend**        | React         | 19.1.0   |
+| **UI Library**      | Material-UI   | 7.1.0    |
+| **Bundler**         | Vite          | 6.3.5    |
+| **Styling**         | Emotion + CSS | Latest   |
+| **Backend**         | FastAPI       | 0.115.12 |
+| **Server**          | Uvicorn       | 0.34.2   |
+| **Validation**      | Pydantic      | 2.12.5   |
+| **Language**        | Python        | 3.10+    |
+| **Package Manager** | npm           | 8.0+     |
 
 ---
 
@@ -192,14 +258,14 @@ Use commands like:
 
 ### Backend API Endpoints
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| `GET` | `/api/state` | Get current board state |
-| `POST` | `/api/move` | Execute a move |
-| `POST` | `/api/undo` | Undo last move |
-| `POST` | `/api/reset` | Reset game |
-| `GET` | `/api/legal/{square}` | Get legal moves for a square |
-| `POST` | `/api/command` | Execute commands (ai on/off) |
+| Method | Endpoint              | Purpose                      |
+| ------ | --------------------- | ---------------------------- |
+| `GET`  | `/api/state`          | Get current board state      |
+| `POST` | `/api/move`           | Execute a move               |
+| `POST` | `/api/undo`           | Undo last move               |
+| `POST` | `/api/reset`          | Reset game                   |
+| `GET`  | `/api/legal/{square}` | Get legal moves for a square |
+| `POST` | `/api/command`        | Execute commands (ai on/off) |
 
 ### Key Files Explained
 
@@ -217,13 +283,13 @@ Use commands like:
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| `Port 5173 already in use` | Change port: `npm run dev -- --port 5174` |
+| Issue                      | Solution                                                          |
+| -------------------------- | ----------------------------------------------------------------- |
+| `Port 5173 already in use` | Change port: `npm run dev -- --port 5174`                         |
 | `Port 8000 already in use` | Use different port: `uvicorn api_server:app --port 8001 --reload` |
-| `Module not found` | Reinstall: `pip install -r requirements.txt` |
-| `npm ERR` | Clear cache: `npm cache clean --force && npm install` |
-| `CORS errors` | Backend already configured with CORS headers |
+| `Module not found`         | Reinstall: `pip install -r requirements.txt`                      |
+| `npm ERR`                  | Clear cache: `npm cache clean --force && npm install`             |
+| `CORS errors`              | Backend already configured with CORS headers                      |
 
 ---
 
